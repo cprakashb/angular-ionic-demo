@@ -7,6 +7,17 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
+
+  <ion-grid>
+    <ion-row>
+      @for(photo of photoService.photos; track photo.filepath; let position = $index) {
+      <ion-col size="6">
+        <ion-img [src]="photo.webviewPath"></ion-img>
+      </ion-col>
+      }
+    </ion-row>
+  </ion-grid>
+
   <ion-fab vertical="bottom" horizontal="center" slot="fixed">
     <ion-fab-button (click)="addPhotoToGallery()">
       <ion-icon name="camera"></ion-icon>

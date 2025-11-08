@@ -9,7 +9,7 @@ import { PhotoService } from '../../services/photo';
 })
 export class Tab2Page {
 
-  constructor(private photoService: PhotoService) { }
+  constructor(public photoService: PhotoService) { }
 
   addPhotoToGallery() {
     this.photoService.addNewToGallery();
