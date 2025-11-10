@@ -1,0 +1,25 @@
+<div class="search-container">
+
+  <ion-searchbar [debounce]="1000" [(ngModel)]="selectedCity.name" (ionInput)="handleInput($event)"></ion-searchbar>
+
+  @if (filteredCities; as list) {
+  @if(list.length > 0) {
+  <ion-list class="city-list">
+    @for (city of list; track city.id) {
+    <ion-item button (click)="selectCity(city)">
+      {{ city.name }}, {{ city.country }}
+    </ion-item>
+    }
+  </ion-list>
+  }
+
+  }
+</div>
+
+<ion-refresher slot="fixed" (ionRefresh)="refresh($event)">
+  <ion-refresher-content></ion-refresher-content>
+</ion-refresher>
+
+@if (weather$ | async; as w) {
+<weather-card [weather]="w"></weather-card>
+}
