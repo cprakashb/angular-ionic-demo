@@ -12,6 +12,7 @@ export class WeatherService {
   constructor(private http: HttpClient) { }
 
   getWeatherByCoords(lat: number, lon: number) {
+    console.log('Fetching weather for coords:', lat, lon);
     const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${this.apiKey}&units=metric`;
     return this.http.get(url).pipe(
       map((data: any) => ({

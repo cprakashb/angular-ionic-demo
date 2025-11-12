@@ -2,14 +2,14 @@
 
 
 import { Component, OnInit, DestroyRef, inject } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { debounceTime, map, Observable, of, startWith } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ToastController } from '@ionic/angular';
 import { WeatherService } from 'src/app/services/weather';
-import { Weather } from 'src/app/models/Weather';
 import { City } from 'src/app/models/City';
 import { CityService } from 'src/app/services/city';
+import { Store } from '@ngrx/store';
+import { WeatherActions } from 'src/app/store/weather/weather.actions';
+import { selectWeatherData } from 'src/app/store/weather/weather.selector';
 
 @Component({
   selector: 'weather-home',
@@ -24,12 +24,14 @@ export class WeatherHomeComponent implements OnInit {
   public filteredCities!: City[];
   private allCities: City[] = [];
 
-  public weather$!: Observable<Weather | null>;
+  // private store = inject(Store); -- alternate way to inject store
+  public weather$ = this.store.select(selectWeatherData);
 
   constructor(
     public weatherService: WeatherService,
     private cityService: CityService,
-    private toastCtrl: ToastController
+    private toastCtrl: ToastController,
+    private store: Store
   ) {
 
   }
@@ -74,7 +76,8 @@ export class WeatherHomeComponent implements OnInit {
     const city = this.selectedCity;
     if (!city) return;
     localStorage.setItem('lastCity', JSON.stringify(city));
-    this.weather$ = this.weatherService.getWeatherByCoords(city.coord.lat, city.coord.lon);
+    // this.weather$ = this.weatherService.getWeatherByCoords(city.coord.lat, city.coord.lon);
+    this.store.dispatch(WeatherActions.loadWeather({ lat: city.coord.lat, lon: city.coord.lon }));
   }
 
   async refresh(event: any) {
@@ -82,7 +85,8 @@ export class WeatherHomeComponent implements OnInit {
       event.target.complete();
       return;
     }
-    this.weather$ = this.weatherService.getWeatherByCoords(this.selectedCity.coord.lat, this.selectedCity.coord.lon);
+    //  this.weather$ = this.weatherService.getWeatherByCoords(this.selectedCity.coord.lat, this.selectedCity.coord.lon);
+    this.store.dispatch(WeatherActions.loadWeather({ lat: this.selectedCity.coord.lat, lon: this.selectedCity.coord.lon }));
     setTimeout(async () => {
       await this.showToast('Weather updated!');
       event.target.complete();

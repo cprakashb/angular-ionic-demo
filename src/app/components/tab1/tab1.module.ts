@@ -7,16 +7,13 @@ import { ExploreContainerComponentModule } from '../explore-container/explore-co
 
 import { Tab1PageRoutingModule } from './tab1-routing.module';
 import { WeatherHomeComponent } from './weather/home/home.component';
-import { WeatherCardComponent } from './weather/card/card.component';
+import { SharedModule } from 'src/app/shared/shared-module';
 
 @NgModule({
   imports: [
-    IonicModule,
-    CommonModule,
-    FormsModule,
-    ExploreContainerComponentModule,
-    Tab1PageRoutingModule
+    Tab1PageRoutingModule,
+    SharedModule
   ],
-  declarations: [Tab1Page, WeatherHomeComponent, WeatherCardComponent]
+  declarations: [Tab1Page, WeatherHomeComponent]
 })
-export class Tab1PageModule {}
+export class Tab1PageModule { }
