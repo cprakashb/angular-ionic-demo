@@ -13,7 +13,9 @@
     </ion-toolbar>
   </ion-header>
 
- @if (weather$ | async; as w) {
-<weather-card [weather]="w"></weather-card>
-}
+  <ion-button (click)="navigateToTab1()">Go to Weather Tab</ion-button>
+
+  @if (weather$ | async; as w) {
+  <weather-card [weather]="w"></weather-card>
+  }
 </ion-content>

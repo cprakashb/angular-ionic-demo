@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { ViewWillEnter } from '@ionic/angular';
 
 @Component({
   selector: 'app-tab1',
@@ -6,8 +7,12 @@ import { Component } from '@angular/core';
   styleUrls: ['tab1.page.scss'],
   standalone: false,
 })
-export class Tab1Page {
+export class Tab1Page implements ViewWillEnter {
 
-  constructor() {}
+  constructor() { }
+
+  ionViewWillEnter(): void {
+    console.log('Tab1Page will enter');
+  }
 
 }

@@ -13,6 +13,7 @@ import { weatherReducer } from './store/weather/weather.reducer';
 import { EffectsModule } from '@ngrx/effects';
 import { WeatherEffects } from './store/weather/weather.effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { IonicStorageModule } from '@ionic/storage-angular';
 
 @NgModule({
   declarations: [AppComponent],
@@ -22,6 +23,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
     StoreDevtoolsModule.instrument({ maxAge: 25 }),
     BrowserModule,
     IonicModule.forRoot(),
+    IonicStorageModule.forRoot(),
     AppRoutingModule,
     ReactiveFormsModule
   ],
