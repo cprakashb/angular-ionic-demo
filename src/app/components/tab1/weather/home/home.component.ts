@@ -10,6 +10,7 @@ import { CityService } from 'src/app/services/city';
 import { Store } from '@ngrx/store';
 import { WeatherActions } from 'src/app/store/weather/weather.actions';
 import { selectWeatherData } from 'src/app/store/weather/weather.selector';
+import { take } from 'rxjs';
 
 @Component({
   selector: 'weather-home',
@@ -34,6 +35,18 @@ export class WeatherHomeComponent implements OnInit {
     private store: Store
   ) {
 
+  }
+
+  loadWeather() {
+    this.store.select(selectWeatherData).pipe(take(1)).subscribe(weather => {
+      if (!weather) {
+        const cached = localStorage.getItem('lastCity');
+        if (cached) {
+          let city: City = structuredClone(cached ? JSON.parse(cached) : null);
+          this.store.dispatch(WeatherActions.loadWeather({ lat: city?.coord.lat, lon: city?.coord.lon }));
+        }
+      }
+    });
   }
 
   ngOnInit() {
